@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ca.ui.model.type.Date");
 jQuery.sap.require("sap.ui.core.mvc.Controller");
 jQuery.sap.require("sap.ca.ui.model.format.AmountFormat");
-sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp.view.Details", {
+sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp1.view.Details", {
 	_oItemTemplate: null,
 	_oNavigationTable: null,
 	_sItemPath: "",
@@ -39,7 +39,7 @@ sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp.view.Details", {
 		window.history.go(-1);
 	},
 	/**
-	 *@memberOf com.sap.sdc.hcp.bootcamp.view.Details
+	 *@memberOf com.sap.sdc.hcp.bootcamp1.view.Details
 	 */
 	applyJob: function(oEvent) {
 
