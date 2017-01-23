@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ui.core.mvc.Controller");
 jQuery.sap.require("sap.ca.ui.model.format.AmountFormat");
 jQuery.sap.require("sap.m.TablePersoController");
-sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp.view.Master", {
+sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp1.view.Master", {
 	_oCatalog: null,
 	_oResourceBundle: null,
 	onInit: function() {
@@ -58,17 +58,17 @@ sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp.view.Master", {
 		});
 	},
 	/**
-	 *@memberOf com.sap.sdc.hcp.bootcamp.view.Master
+	 *@memberOf com.sap.sdc.hcp.bootcamp1.view.Master
 	 */
 	handleUploadResumePopover: function(oEvent) {
 		if (!this._oPopoverR) {
-			this._oPopoverR = sap.ui.xmlfragment("com.sap.sdc.hcp.bootcamp.view.PopoverProfile", this);
+			this._oPopoverR = sap.ui.xmlfragment("com.sap.sdc.hcp.bootcamp1.view.PopoverProfile", this);
 			this.getView().addDependent(this._oPopoverR);
 		}
 		this._oPopoverR.openBy(oEvent.getSource());
 	},
 	/**
-	 *@memberOf com.sap.sdc.hcp.bootcamp.view.Master
+	 *@memberOf com.sap.sdc.hcp.bootcamp1.view.Master
 	 */
 	handleUploadPicPopover: function(oEvent) {
 		if (navigator.camera !== undefined && navigator.camera != null) {
@@ -94,7 +94,7 @@ sap.ui.core.mvc.Controller.extend("com.sap.sdc.hcp.bootcamp.view.Master", {
 				);
 		} else {
 			if (!this._oPopover) {
-				this._oPopover = sap.ui.xmlfragment("com.sap.sdc.hcp.bootcamp.view.PopoverPic", this);
+				this._oPopover = sap.ui.xmlfragment("com.sap.sdc.hcp.bootcamp1.view.PopoverPic", this);
 				this.getView().addDependent(this._oPopover);
 			}
 
