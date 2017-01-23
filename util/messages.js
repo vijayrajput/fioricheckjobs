@@ -1,7 +1,7 @@
-jQuery.sap.declare("com.sap.sdc.hcp.bootcamp.util.messages");
+jQuery.sap.declare("com.sap.sdc.hcp.bootcamp1.util.messages");
 jQuery.sap.require("sap.ca.ui.message.message");
 
-com.sap.sdc.hcp.bootcamp.util.messages = {};
+com.sap.sdc.hcp.bootcamp1.util.messages = {};
 
 /**
  * Show an error dialog with information from the oData response object.
@@ -11,8 +11,8 @@ com.sap.sdc.hcp.bootcamp.util.messages = {};
  * @return {void}
  * @public
  */
-com.sap.sdc.hcp.bootcamp.util.messages.showErrorMessage = function(oParameter) {
-	var oErrorDetails = com.sap.sdc.hcp.bootcamp.util.messages._parseError(oParameter);
+com.sap.sdc.hcp.bootcamp1.util.messages.showErrorMessage = function(oParameter) {
+	var oErrorDetails = com.sap.sdc.hcp.bootcamp1.util.messages._parseError(oParameter);
 	var oMsgBox = sap.ca.ui.message.showMessageBox({
 		type: sap.ca.ui.message.Type.ERROR,
 		message: oErrorDetails.sMessage,
@@ -23,11 +23,11 @@ com.sap.sdc.hcp.bootcamp.util.messages.showErrorMessage = function(oParameter) {
 	}
 };
 
-com.sap.sdc.hcp.bootcamp.util.messages.getErrorContent = function(oParameter) {
-	return com.sap.sdc.hcp.bootcamp.util.messages._parseError(oParameter).sMessage;
+com.sap.sdc.hcp.bootcamp1.util.messages.getErrorContent = function(oParameter) {
+	return com.sap.sdc.hcp.bootcamp1.util.messages._parseError(oParameter).sMessage;
 };
 
-com.sap.sdc.hcp.bootcamp.util.messages._parseError = function(oParameter) {
+com.sap.sdc.hcp.bootcamp1.util.messages._parseError = function(oParameter) {
 	var sMessage = "",
 		sDetails = "",
 		oEvent = null,
