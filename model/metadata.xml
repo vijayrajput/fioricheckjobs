@@ -1,0 +1,68 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="JobEnrollmentDemo">
+            <EntityType Name="Analytic">
+                <Key>
+                    <PropertyRef Name="JOBID"/>
+                    <PropertyRef Name="LOCATION"/>
+                </Key>
+                <Property Name="Count" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="JOBID" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="LOCATION" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <NavigationProperty Name="JobDetails" Relationship="JobEnrollmentDemo.Analytic_Job_Many_One0" FromRole="Analytic" ToRole="Job"/>
+            </EntityType>
+            <EntityType Name="Enrollment">
+                <Key>
+                    <PropertyRef Name="JOBID"/>
+                    <PropertyRef Name="PERSONID"/>
+                </Key>
+                <Property Name="CREATED_BY" Type="Edm.String" Nullable="true" MaxLength="20"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="EMAIL" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="FIRST_NAME" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="JOBID" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="LAST_NAME" Type="Edm.String" Nullable="true" MaxLength="50"/>
+                <Property Name="LOCATION" Type="Edm.String" Nullable="true" MaxLength="50"/>
+                <Property Name="PERSONID" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <NavigationProperty Name="JobDetails" Relationship="JobEnrollmentDemo.Enrollment_Job_Many_One0" FromRole="Enrollment" ToRole="Job"/>
+            </EntityType>
+            <EntityType Name="Job">
+                <Key>
+                    <PropertyRef Name="JOBID"/>
+                </Key>
+                <Property Name="DEPARTMENT" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="JOBID" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="VALID_TILL" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="RemainingTime" Type="Edm.Int16" Nullable="true"/>
+                <Property Name="RemainingTimeUnit" Type="Edm.String" Nullable="true"/>
+                <NavigationProperty Name="AnalyticDetails" Relationship="JobEnrollmentDemo.Analytic_Job_Many_One0" FromRole="Job" ToRole="Analytic"/>
+                <NavigationProperty Name="EnrollmentDetails" Relationship="JobEnrollmentDemo.Enrollment_Job_Many_One0" FromRole="Job" ToRole="Enrollment"/>
+            </EntityType>
+            <Association Name="Analytic_Job_Many_One0">
+                <End Type="JobEnrollmentDemo.Analytic" Multiplicity="*" Role="Analytic"/>
+                <End Type="JobEnrollmentDemo.Job" Multiplicity="1" Role="Job"/>
+            </Association>
+            <Association Name="Enrollment_Job_Many_One0">
+                <End Type="JobEnrollmentDemo.Enrollment" Multiplicity="*" Role="Enrollment"/>
+                <End Type="JobEnrollmentDemo.Job" Multiplicity="1" Role="Job"/>
+            </Association>
+            <EntityContainer Name="JobEnrollmentDemoContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Analytics" EntityType="JobEnrollmentDemo.Analytic"/>
+                <EntitySet Name="Enrollments" EntityType="JobEnrollmentDemo.Enrollment"/>
+                <EntitySet Name="Jobs" EntityType="JobEnrollmentDemo.Job"/>
+                <AssociationSet Name="Analytic_Job_Many_One0Set" Association="JobEnrollmentDemo.Analytic_Job_Many_One0">
+                    <End EntitySet="Analytics" Role="Analytic"/>
+                    <End EntitySet="Jobs" Role="Job"/>
+                </AssociationSet>
+                <AssociationSet Name="Enrollment_Job_Many_One0Set" Association="JobEnrollmentDemo.Enrollment_Job_Many_One0">
+                    <End EntitySet="Enrollments" Role="Enrollment"/>
+                    <End EntitySet="Jobs" Role="Job"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
