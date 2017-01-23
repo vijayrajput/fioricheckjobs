@@ -1,14 +1,14 @@
 // define a root UI component that exposes the main view
-jQuery.sap.declare("com.sap.sdc.hcp.bootcamp.Component");
+jQuery.sap.declare("com.sap.sdc.hcp.bootcamp1.Component");
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.core.routing.History");
 jQuery.sap.require("sap.m.routing.RouteMatchedHandler");
 
-sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
+sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp1.Component", {
 	metadata: {
 		"name": "fioricheckjobs",
 		"version": "1.1.0-SNAPSHOT",
-		"library": "com.sap.sdc.hcp.bootcamp",
+		"library": "com.sap.sdc.hcp.bootcamp1",
 		"includes": ["css/fullScreenStyles.css"],
 		"dependencies": {
 			"libs": ["sap.m", "sap.ui.layout"],
@@ -25,7 +25,7 @@ sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
 			// The default values for routes
 			config: {
 				"viewType": "XML",
-				"viewPath": "com.sap.sdc.hcp.bootcamp.view",
+				"viewPath": "com.sap.sdc.hcp.bootcamp1.view",
 				"targetControl": "fioriContent", // This is the control in which new views are placed
 				"targetAggregation": "pages", // This is the aggregation in which the new views will be placed
 				"clearTarget": false
@@ -53,7 +53,7 @@ sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
 		};
 
 		return sap.ui.view({
-			viewName: "com.sap.sdc.hcp.bootcamp.view.Main",
+			viewName: "com.sap.sdc.hcp.bootcamp1.view.Main",
 			type: sap.ui.core.mvc.ViewType.XML,
 			viewData: oViewData
 		});
@@ -65,7 +65,7 @@ sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
 
 		// always use absolute paths relative to our own component
 		// (relative paths will fail if running in the Fiori Launchpad)
-		var sRootPath = jQuery.sap.getModulePath("com.sap.sdc.hcp.bootcamp");
+		var sRootPath = jQuery.sap.getModulePath("com.sap.sdc.hcp.bootcamp1");
 		sRootPathcheckjobs = sRootPath;
 		// The service URL for the oData model 
 		var oServiceConfig = this.getMetadata().getConfig().serviceConfig;
@@ -109,7 +109,7 @@ sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
 
 	// creation and setup of the oData model
 	_initODataModel: function(sServiceUrl) {
-		jQuery.sap.require("com.sap.sdc.hcp.bootcamp.util.messages");
+		jQuery.sap.require("com.sap.sdc.hcp.bootcamp1.util.messages");
 		var oConfig = {
 			metadataUrlParams: {},
 			json: true,
@@ -119,7 +119,7 @@ sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp.Component", {
 			useBatch: true
 		};
 		var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, oConfig);
-		oModel.attachRequestFailed(null, com.sap.sdc.hcp.bootcamp.util.messages.showErrorMessage);
+		oModel.attachRequestFailed(null, com.sap.sdc.hcp.bootcamp1.util.messages.showErrorMessage);
 		this.setModel(oModel);
 	}
 });
