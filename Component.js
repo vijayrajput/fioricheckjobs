@@ -1,125 +1,76 @@
-// define a root UI component that exposes the main view
-jQuery.sap.declare("com.sap.sdc.hcp.bootcamp1.Component");
-jQuery.sap.require("sap.ui.core.UIComponent");
-jQuery.sap.require("sap.ui.core.routing.History");
-jQuery.sap.require("sap.m.routing.RouteMatchedHandler");
+/* global document */
+sap.ui.define([
+	"sap/ui/core/UIComponent",
+	"sap/ui/Device",
+	"com/sap/sdc/hcp/bootcamp/checkjob/fioricheckjobs/model/models",
+	"com/sap/sdc/hcp/bootcamp/checkjob/fioricheckjobs/controller/ErrorHandler"
+], function (UIComponent, Device, models, ErrorHandler) {
+	"use strict";
 
-sap.ui.core.UIComponent.extend("com.sap.sdc.hcp.bootcamp1.Component", {
-	metadata: {
-		"name": "fioricheckjobs",
-		"version": "1.1.0-SNAPSHOT",
-		"library": "com.sap.sdc.hcp.bootcamp1",
-		"includes": ["css/fullScreenStyles.css"],
-		"dependencies": {
-			"libs": ["sap.m", "sap.ui.layout"],
-			"components": []
+	return UIComponent.extend("com.sap.sdc.hcp.bootcamp.checkjob.fioricheckjobs.Component", {
+
+		metadata: {
+			manifest: "json"
 		},
-		"config": {
-			resourceBundle: "i18n/messageBundle.properties",
-			serviceConfig: {
-				name: "odata.srv",
-				serviceUrl: "/BootCampDestination/JobEnrollmentDemo/odata.srv/"
+
+		/**
+		 * The component is initialized by UI5 automatically during the startup of the app and calls the init method once.
+		 * In this function, the device models are set and the router is initialized.
+		 * @public
+		 * @override
+		 */
+		init: function () {
+			// call the base component's init function
+			UIComponent.prototype.init.apply(this, arguments);
+
+			// initialize the error handler with the component
+			this._oErrorHandler = new ErrorHandler(this);
+
+			// set the device model
+			this.setModel(models.createDeviceModel(), "device");
+
+			// set userService model
+			var userModel = new sap.ui.model.json.JSONModel("/BootCampDestination/JobEnrollmentDemo/GetUserAttributes");
+			userModel.setDefaultBindingMode("OneWay");
+			this.setModel(userModel, "userapi");
+
+			// create the views based on the url/hash
+			this.getRouter().initialize();
+		},
+
+		/**
+		 * The component is destroyed by UI5 automatically.
+		 * In this method, the ErrorHandler is destroyed.
+		 * @public
+		 * @override
+		 */
+		destroy: function () {
+			this._oErrorHandler.destroy();
+			// call the base component's destroy function
+			UIComponent.prototype.destroy.apply(this, arguments);
+		},
+
+		/**
+		 * This method can be called to determine whether the sapUiSizeCompact or sapUiSizeCozy
+		 * design mode class should be set, which influences the size appearance of some controls.
+		 * @public
+		 * @return {string} css class, either 'sapUiSizeCompact' or 'sapUiSizeCozy' - or an empty string if no css class should be set
+		 */
+		getContentDensityClass: function () {
+			if (this._sContentDensityClass === undefined) {
+				// check whether FLP has already set the content density class; do nothing in this case
+				if (jQuery(document.body).hasClass("sapUiSizeCozy") || jQuery(document.body).hasClass("sapUiSizeCompact")) {
+					this._sContentDensityClass = "";
+				} else if (!Device.support.touch) { // apply "compact" mode if touch is not supported
+					this._sContentDensityClass = "sapUiSizeCompact";
+				} else {
+					// "cozy" in case of touch support; default for most sap.m controls, but needed for desktop-first controls like sap.ui.table.Table
+					this._sContentDensityClass = "sapUiSizeCozy";
+				}
 			}
-		},
-		routing: {
-			// The default values for routes
-			config: {
-				"viewType": "XML",
-				"viewPath": "com.sap.sdc.hcp.bootcamp1.view",
-				"targetControl": "fioriContent", // This is the control in which new views are placed
-				"targetAggregation": "pages", // This is the aggregation in which the new views will be placed
-				"clearTarget": false
-			},
-			routes: [{
-				pattern: "",
-				name: "main",
-				view: "Master"
-			}, {
-				name: "details",
-				view: "Details",
-				pattern: "{entity}"
-			}]
+			return this._sContentDensityClass;
 		}
-	},
 
-	/**
-	 * Initialize the application
-	 * 
-	 * @returns {sap.ui.core.Control} the content
-	 */
-	createContent: function() {
-		var oViewData = {
-			component: this
-		};
+	});
 
-		return sap.ui.view({
-			viewName: "com.sap.sdc.hcp.bootcamp1.view.Main",
-			type: sap.ui.core.mvc.ViewType.XML,
-			viewData: oViewData
-		});
-	},
-
-	init: function() {
-		// call super init (will call function "create content")
-		sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
-
-		// always use absolute paths relative to our own component
-		// (relative paths will fail if running in the Fiori Launchpad)
-		var sRootPath = jQuery.sap.getModulePath("com.sap.sdc.hcp.bootcamp1");
-		sRootPathcheckjobs = sRootPath;
-		// The service URL for the oData model 
-		var oServiceConfig = this.getMetadata().getConfig().serviceConfig;
-		var sServiceUrl = oServiceConfig.serviceUrl;
-
-		// the metadata is read to get the location of the i18n language files later
-		var mConfig = this.getMetadata().getConfig();
-		this._routeMatchedHandler = new sap.m.routing.RouteMatchedHandler(this.getRouter(), this._bRouterCloseDialogs);
-
-		// create oData model
-		this._initODataModel(sServiceUrl);
-
-		// set i18n model
-		var i18nModel = new sap.ui.model.resource.ResourceModel({
-			bundleUrl: [sRootPath, mConfig.resourceBundle].join("/")
-		});
-		this.setModel(i18nModel, "i18n");
-		
-		// set userService model
-		var userModel = new sap.ui.model.json.JSONModel("/BootCampDestination/JobEnrollmentDemo/GetUserAttributes");
-		userModel.setDefaultBindingMode("OneWay");
-		this.setModel(userModel, "userapi");
-	
-
-		// initialize router and navigate to the first page
-		this.getRouter().initialize();
-
-	},
-
-	exit: function() {
-		this._routeMatchedHandler.destroy();
-	},
-
-	// This method lets the app can decide if a navigation closes all open dialogs
-	setRouterSetCloseDialogs: function(bCloseDialogs) {
-		this._bRouterCloseDialogs = bCloseDialogs;
-		if (this._routeMatchedHandler) {
-			this._routeMatchedHandler.setCloseDialogs(bCloseDialogs);
-		}
-	},
-
-	// creation and setup of the oData model
-	_initODataModel: function(sServiceUrl) {
-		jQuery.sap.require("com.sap.sdc.hcp.bootcamp1.util.messages");
-		var oConfig = {
-			metadataUrlParams: {},
-			json: true,
-			// loadMetadataAsync : true,
-			defaultBindingMode: "TwoWay",
-			defaultCountMode: "Inline",
-			useBatch: true
-		};
-		var oModel = new sap.ui.model.odata.v2.ODataModel(sServiceUrl, oConfig);
-		oModel.attachRequestFailed(null, com.sap.sdc.hcp.bootcamp1.util.messages.showErrorMessage);
-		this.setModel(oModel);
-	}
 });
