@@ -157,5 +157,31 @@ sap.ui.define([
 			}
 			this._oPopoverR.openBy(oEvent.getSource());
 		}
+
+		//// Custom fuctions
+		,
+		handleUploadComplete: function (oEvent) {
+			var sResponse = oEvent.getParameter("response");
+			if (sResponse) {
+				sap.m.MessageToast.show("Upload Success");
+			}
+
+		},
+		handleUploadResumeProfile: function (oEvent) {
+			var oFileUploader = sap.ui.getCore().byId('fileUploaderResume');
+			var url = oFileUploader.getUploadUrl();
+			oFileUploader.setUploadUrl(url);
+			oFileUploader.upload();
+			this._oPopoverR.close();
+		},
+		handleUploadPicPhoto: function (oEvent) {
+
+			var oFileUploader = sap.ui.getCore().byId('fileUploaderPicture');
+			var url = oFileUploader.getUploadUrl();
+			oFileUploader.setUploadUrl(url);
+			oFileUploader.upload();
+			this._oPopover.close();
+
+		}
 	});
 });
