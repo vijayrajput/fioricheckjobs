@@ -1,6 +1,41 @@
 {
-  "welcomeFile": "index.html",
   "routes": [
+    {
+      "path": "/webapp/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/webapp/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
     {
       "path": "/BootCampDestination",
       "target": {
@@ -10,40 +45,14 @@
       "description": "Destination for BootCamp Hands-on"
     },
     {
-      "path": "/resources",
+      "path": "/webapp/BootCampDestination",
       "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/resources",
-        "version": "1.26.3"
+        "type": "destination",
+        "name": "BootCampDestination"
       },
-      "description": "SAPUI5 Resources"
-    },
-    {
-      "path": "/test-resources",
-      "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/test-resources",
-        "version": "1.26.3"
-      },
-      "description": "SAPUI5 Test Resources"
+      "description": "Destination for BootCamp Hands-on"
     }
   ],
-  "cacheControl": [
-    {
-      "directive": "private",
-      "maxAge": 0,
-      "path": "**.html"
-    },
-    {
-      "directive": "private",
-      "maxAge": 0,
-      "path": "sap-ui-cachebuster-info.json"
-    },
-    {
-      "directive": "public",
-      "maxAge": 31536000
-    }
-  ]
+  "welcomeFile": "/webapp/index.html",
+  "sendWelcomeFileRedirect": true
 }
