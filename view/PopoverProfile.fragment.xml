@@ -1,13 +1,15 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:core="sap.ui.core">
-<ResponsivePopover title="Upload Resume" class="sapUiPopupWithPadding" placement="Auto">
-<beginButton>
-<Button id="buttonUpload" text="Upload" press="handleUploadResumeProfile"/>
-</beginButton>
-<endButton>
-<Button id="buttonCancel" text="Cancel" press="handleCloseRButton"/>
-</endButton>
-<content>
-<u:FileUploader id="fileUploaderResume" name="myFileUpload" uploadUrl="BootCampDestination/JobEnrollmentDemo/DocManagement?type=cv&amp;empid={userapi>/name}" tooltip="Select your Resume" uploadComplete="handleUploadComplete"/>
-</content>
-</ResponsivePopover>
+	<ResponsivePopover title="Upload Resume" class="sapUiPopupWithPadding" placement="Auto">
+		<beginButton>
+			<Button id="buttonUploadR" text="Upload" press="handleUploadResumeProfile"/>
+		</beginButton>
+		<endButton>
+			<Button id="buttonCancelR" text="Cancel" press="handleCloseRButton"/>
+		</endButton>
+		<content>
+			<u:FileUploader id="fileUploaderResume" name="myFileUpload"
+				uploadUrl="BootCampDestination/JobEnrollmentDemo/DocManagement?type=cv&amp;empid={userapi>/name}" tooltip="Select your Resume"
+				uploadComplete="handleUploadComplete"/>
+		</content>
+	</ResponsivePopover>
 </core:FragmentDefinition>
