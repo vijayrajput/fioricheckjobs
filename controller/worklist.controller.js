@@ -141,11 +141,37 @@ sap.ui.define([
 		 *@memberOf com.sap.sdc.hcp.bootcamp.checkjob.fioricheckjobs.controller.Worklist
 		 */
 		handleUploadPicPopover: function (oEvent) {
+			if (navigator.camera !== undefined && navigator.camera != null) {
+			var userId = this.getView().getModel('userapi').getProperty("/name");
+				navigator.camera.getPicture(
+					function(fileData) {
+						$.ajax({
+							type: "POST",
+							url: '/BootCampDestination/JobEnrollmentDemo/DocManagement?type=pic&empid=' + userId,
+							data: "data:image/jpeg;base64," + fileData,
+							success: function() {
+								sap.m.MessageToast.show("Successfully Upload");
+							},
+							error: function(xhr,error) {
+								sap.m.MessageToast.show("Upload fail: " + error);
+							}
+						});
+
+					},
+					function(err) {
+						sap.m.MessageToast.show("Failed:" + err);
+					}, {
+						destinationType: Camera.DestinationType.DATA_URL,
+						encodingType: Camera.EncodingType.JPEG
+					}
+				);
+		} else {
 			if (!this._oPopover) {
 				this._oPopover = sap.ui.xmlfragment("com.sap.sdc.hcp.bootcamp.checkjob.fioricheckjobs.view.PopoverPic", this);
 				this.getView().addDependent(this._oPopover);
 			}
 			this._oPopover.openBy(oEvent.getSource());
+		}
 		},
 		/**
 		 *@memberOf com.sap.sdc.hcp.bootcamp.checkjob.fioricheckjobs.controller.Worklist
